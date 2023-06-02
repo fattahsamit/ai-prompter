@@ -7,7 +7,7 @@ interface errorProp {
   reset: any;
 }
 
-const Error = ({ error, reset }: errorProp) => {
+const error = ({ error, reset }: errorProp) => {
   useEffect(() => {
     // Log the error to a error reporting service
     console.log(error);
@@ -15,10 +15,10 @@ const Error = ({ error, reset }: errorProp) => {
 
   return (
     <div>
-      <h2>Somethingaefeaae went wrong</h2>
+      <h2>Something went wrong</h2>
       <button onClick={() => reset()}>Try again</button>
     </div>
   );
 };
 
-export default Error;
+export default error;
