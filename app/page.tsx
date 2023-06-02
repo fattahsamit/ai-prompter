@@ -1,6 +1,3 @@
-// "use client"
-// ^in case of Client side component (ex. react state management, hooks)
-
 import Image from "next/image";
 
 export default function Home() {
