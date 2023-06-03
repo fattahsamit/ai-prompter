@@ -1,6 +1,8 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import { signIn } from "next-auth/react";
+import { connectToDB } from "@utils/database";
+import User from "@models/user";
 
 const handler = NextAuth({
   providers: [
@@ -12,8 +14,23 @@ const handler = NextAuth({
   async session({ session }) {},
   async signIn({ profile }) {
     try {
-      // serverless -> Lambda -> dynamodb
-    } catch (error) {}
+      await connectToDB();
+      //   Check if a user already exists
+      const userExists = await User.findOne({ email: profile.email });
+
+      // if not create a new user and save it to a database
+      if (!userExists) {
+        await User.create({
+          email: profile.email,
+          username: profile.name.replace(" ", "").toLowerCase(),
+          image: profile.picture,
+        });
+      }
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   },
 });
 
